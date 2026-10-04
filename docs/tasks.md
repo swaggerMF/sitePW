@@ -5,7 +5,7 @@ The checked items reflect what is complete at this commit.
 ## Project milestones
 
 - [x] Initialize separate Angular and Spring Boot projects
-- [ ] Configure PostgreSQL and schema migrations
+- [x] Configure PostgreSQL and schema migrations
 - [ ] Registration, password hashing, JWT and authentication UI
 - [ ] Trip CRUD backend and frontend
 - [ ] Membership and access authorization
@@ -48,4 +48,4 @@ The checked items reflect what is complete at this commit.
 
 ## Completed in this commit
 
-Scaffold the separate Angular and Spring Boot applications and their build configuration.
+Add the database connection settings, the first Flyway migration and environment examples.
