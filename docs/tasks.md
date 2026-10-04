@@ -22,7 +22,7 @@ The checked items reflect what is complete at this commit.
 
 - [x] Separate Angular and Spring Boot folders, pinned dependencies and ignored secrets/build outputs
 - [ ] Nine JPA entities, six versioned PostgreSQL migrations, constraints and safe cascades
-- [ ] Validated account registration, BCrypt hashing, JWT issue/verification and expiry checks
+- [x] Validated account registration, BCrypt hashing, JWT issue/verification and expiry checks
 - [ ] Login/register pages, route guard, session restoration and JWT interceptor
 - [ ] Trip cards and create/edit/delete dialogs; consistent nested trip navigation
 - [ ] Member lookup by registered username/email; owner-only add/remove operations
@@ -48,4 +48,4 @@ The checked items reflect what is complete at this commit.
 
 ## Completed in this commit
 
-Add the database connection settings, the first Flyway migration and environment examples.
+Implement registration and login endpoints with validation, BCrypt passwords, JWTs and authentication tests.
