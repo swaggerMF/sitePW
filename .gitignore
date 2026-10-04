@@ -1,0 +1,9 @@
+node_modules/
+frontend/dist/
+frontend/.angular/
+backend/target/
+.env
+.env.*
+!.env.example
+*.log
+.playwright/
