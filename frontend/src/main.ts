@@ -1,5 +1,7 @@
-import {Component} from '@angular/core';
 import {bootstrapApplication} from '@angular/platform-browser';
-@Component({selector:'app-root',template:'<h1>TripBoard</h1><p>Your next adventure starts here.</p>'})
-class App {}
-bootstrapApplication(App).catch(console.error);
+import {provideRouter} from '@angular/router';
+import {provideHttpClient,withInterceptors} from '@angular/common/http';
+import {AppComponent} from './app/app.component';
+import {routes} from './app/app.routes';
+import {authInterceptor} from './app/core/auth.interceptor';
+bootstrapApplication(AppComponent,{providers:[provideRouter(routes),provideHttpClient(withInterceptors([authInterceptor]))]}).catch(console.error);

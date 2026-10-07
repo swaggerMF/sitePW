@@ -6,7 +6,7 @@ The checked items reflect what is complete at this commit.
 
 - [x] Initialize separate Angular and Spring Boot projects
 - [x] Configure PostgreSQL and schema migrations
-- [ ] Registration, password hashing, JWT and authentication UI
+- [x] Registration, password hashing, JWT and authentication UI
 - [ ] Trip CRUD backend and frontend
 - [ ] Membership and access authorization
 - [ ] Itinerary CRUD and chronological UI
@@ -23,7 +23,7 @@ The checked items reflect what is complete at this commit.
 - [x] Separate Angular and Spring Boot folders, pinned dependencies and ignored secrets/build outputs
 - [ ] Nine JPA entities, six versioned PostgreSQL migrations, constraints and safe cascades
 - [x] Validated account registration, BCrypt hashing, JWT issue/verification and expiry checks
-- [ ] Login/register pages, route guard, session restoration and JWT interceptor
+- [x] Login/register pages, route guard, session restoration and JWT interceptor
 - [ ] Trip cards and create/edit/delete dialogs; consistent nested trip navigation
 - [ ] Member lookup by registered username/email; owner-only add/remove operations
 - [ ] Creator/owner editing rules and trip membership checks on every resource
@@ -48,4 +48,4 @@ The checked items reflect what is complete at this commit.
 
 ## Completed in this commit
 
-Implement registration and login endpoints with validation, BCrypt passwords, JWTs and authentication tests.
+Add Angular login and registration pages, session handling, a route guard and a JWT interceptor.
