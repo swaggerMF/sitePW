@@ -1,0 +1,3 @@
+import {Component,inject} from '@angular/core';import {RouterLink} from '@angular/router';import {TripContext} from './trip-context';
+@Component({imports:[RouterLink],template:`<div class="section-heading"><div><span class="eyebrow">THE BIG PICTURE</span><h2>Let’s make it a good one.</h2></div></div><p class="detail-text">{{ctx.trip()?.description}}</p><div class="overview-links"><a class="card" routerLink="itinerary"><h3>Build the itinerary ↗</h3><p>Make space for the must-sees and the unexpected.</p></a><a class="card" routerLink="members"><h3>Bring your people ↗</h3><p>Good adventures start with good company.</p></a></div>`})
+export class OverviewComponent {ctx=inject(TripContext);}

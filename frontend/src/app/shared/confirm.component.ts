@@ -1,0 +1,3 @@
+import {Component,input,output} from '@angular/core';import {ModalComponent} from './modal.component';
+@Component({selector:'app-confirm',imports:[ModalComponent],template:`<app-modal [title]="title()" (closed)="cancelled.emit()"><p>{{message()}}</p><div class="form-actions"><button (click)="cancelled.emit()">Cancel</button><button class="danger" [disabled]="busy()" (click)="confirmed.emit()">{{busy()?'Deleting…':'Delete'}}</button></div></app-modal>`})
+export class ConfirmComponent {title=input('Delete this item?');message=input('This action cannot be undone.');busy=input(false);confirmed=output<void>();cancelled=output<void>();}

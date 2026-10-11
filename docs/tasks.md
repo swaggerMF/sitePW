@@ -7,8 +7,8 @@ The checked items reflect what is complete at this commit.
 - [x] Initialize separate Angular and Spring Boot projects
 - [x] Configure PostgreSQL and schema migrations
 - [x] Registration, password hashing, JWT and authentication UI
-- [ ] Trip CRUD backend and frontend
-- [ ] Membership and access authorization
+- [x] Trip CRUD backend and frontend
+- [x] Membership and access authorization
 - [ ] Itinerary CRUD and chronological UI
 - [ ] Expense CRUD and deterministic equal splitting
 - [ ] Balances, settlements and debt simplification
@@ -24,8 +24,8 @@ The checked items reflect what is complete at this commit.
 - [ ] Nine JPA entities, six versioned PostgreSQL migrations, constraints and safe cascades
 - [x] Validated account registration, BCrypt hashing, JWT issue/verification and expiry checks
 - [x] Login/register pages, route guard, session restoration and JWT interceptor
-- [ ] Trip cards and create/edit/delete dialogs; consistent nested trip navigation
-- [ ] Member lookup by registered username/email; owner-only add/remove operations
+- [x] Trip cards and create/edit/delete dialogs; consistent nested trip navigation
+- [x] Member lookup by registered username/email; owner-only add/remove operations
 - [ ] Creator/owner editing rules and trip membership checks on every resource
 - [ ] Activity create/view/edit/delete; chronological day grouping and date validation
 - [ ] Expense create/view/edit/delete; payer and participant selection
@@ -48,4 +48,4 @@ The checked items reflect what is complete at this commit.
 
 ## Completed in this commit
 
-Implement trip CRUD, trip membership, backend access rules and the trips/members schema.
+Add trip cards, forms, navigation and the owner’s member management screens.

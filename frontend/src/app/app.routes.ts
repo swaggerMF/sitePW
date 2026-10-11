@@ -1,6 +1,3 @@
 import {Routes} from '@angular/router';
-import {AuthComponent} from './auth/auth.component';
-import {authGuard} from './core/auth.guard';
-import {Component} from '@angular/core';
-@Component({template:'<section class="page"><h1>My trips</h1><p>Your adventures will appear here.</p></section>'}) class TripsPlaceholder {}
-export const routes:Routes=[{path:'login',component:AuthComponent},{path:'register',component:AuthComponent},{path:'trips',component:TripsPlaceholder,canActivate:[authGuard]},{path:'',redirectTo:'trips',pathMatch:'full'},{path:'**',redirectTo:'trips'}];
+import {AuthComponent} from './auth/auth.component';import {authGuard} from './core/auth.guard';import {TripsComponent} from './trips/trips.component';import {TripShellComponent} from './trips/trip-shell.component';import {OverviewComponent} from './trips/overview.component';import {MembersComponent} from './members/members.component';
+export const routes:Routes=[{path:'login',component:AuthComponent},{path:'register',component:AuthComponent},{path:'trips',component:TripsComponent,canActivate:[authGuard]},{path:'trips/:id',component:TripShellComponent,canActivate:[authGuard],children:[{path:'',component:OverviewComponent},{path:'members',component:MembersComponent}]},{path:'',redirectTo:'trips',pathMatch:'full'},{path:'**',redirectTo:'trips'}];
