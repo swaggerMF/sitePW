@@ -13,7 +13,7 @@ The checked items reflect what is complete at this commit.
 - [x] Expense CRUD and deterministic equal splitting
 - [x] Balances, settlements and debt simplification
 - [x] Suggestion CRUD, unique votes and activity conversion
-- [ ] Trip dashboard and demo data
+- [x] Trip dashboard and demo data
 - [ ] Business logic and access integration tests
 - [ ] Responsive UI, validation and browser flow verification
 - [ ] Requirements, technical specification and complete setup guide
@@ -34,8 +34,8 @@ The checked items reflect what is complete at this commit.
 - [x] Payment recording/deletion; financial history protects member removal
 - [x] Open suggestion create/view/edit/delete, one changeable vote per user
 - [x] Owner accept/reject actions and once-only accepted-idea conversion
-- [ ] Dashboard spending, upcoming activities, personal balance and shortcuts
-- [ ] Opt-in empty-database demo seeding with externally configured passwords
+- [x] Dashboard spending, upcoming activities, personal balance and shortcuts
+- [x] Opt-in empty-database demo seeding with externally configured passwords
 - [ ] Responsive desktop/mobile views, native modal dialogs, confirmations and error states
 - [ ] Separate Angular templates and formatted Java/TypeScript/CSS sources
 - [x] Unit tests for splitting, balances, settlements and debt simplification
@@ -48,4 +48,4 @@ The checked items reflect what is complete at this commit.
 
 ## Completed in this commit
 
-Add ideas, votes, owner decisions and accepted-idea conversion with database constraints and tests.
+Add the trip overview dashboard and optional demo data for an empty database.

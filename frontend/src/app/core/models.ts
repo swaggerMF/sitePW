@@ -9,3 +9,4 @@ export interface Transfer {fromUserId:number;fromUser:string;toUserId:number;toU
 export interface BalanceSummary {totalExpenses:number;balances:Balance[];transfers:Transfer[]}
 export interface Settlement extends Transfer {id:number;date:string;createdById:number}
 export interface Suggestion {id:number;title:string;description:string;location:string;estimatedCost:number;status:'OPEN'|'ACCEPTED'|'REJECTED';createdById:number;createdBy:string;upVotes:number;downVotes:number;myVote:'UP'|'DOWN'|null;converted:boolean;activityId:number|null}
+export interface Dashboard {totalExpenses:number;currentBalance:number;activityCount:number;openIdeas:number;upcoming:Activity[]}
