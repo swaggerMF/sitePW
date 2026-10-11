@@ -11,7 +11,7 @@ The checked items reflect what is complete at this commit.
 - [x] Membership and access authorization
 - [x] Itinerary CRUD and chronological UI
 - [x] Expense CRUD and deterministic equal splitting
-- [ ] Balances, settlements and debt simplification
+- [x] Balances, settlements and debt simplification
 - [ ] Suggestion CRUD, unique votes and activity conversion
 - [ ] Trip dashboard and demo data
 - [ ] Business logic and access integration tests
@@ -30,15 +30,15 @@ The checked items reflect what is complete at this commit.
 - [x] Activity create/view/edit/delete; chronological day grouping and date validation
 - [x] Expense create/view/edit/delete; payer and participant selection
 - [x] Exact equal shares, stable remainder-cent allocation and duplicate-participant validation
-- [ ] Per-member balances, corrected settlement signs and simplified transfers
-- [ ] Payment recording/deletion; financial history protects member removal
+- [x] Per-member balances, corrected settlement signs and simplified transfers
+- [x] Payment recording/deletion; financial history protects member removal
 - [ ] Open suggestion create/view/edit/delete, one changeable vote per user
 - [ ] Owner accept/reject actions and once-only accepted-idea conversion
 - [ ] Dashboard spending, upcoming activities, personal balance and shortcuts
 - [ ] Opt-in empty-database demo seeding with externally configured passwords
 - [ ] Responsive desktop/mobile views, native modal dialogs, confirmations and error states
 - [ ] Separate Angular templates and formatted Java/TypeScript/CSS sources
-- [ ] Unit tests for splitting, balances, settlements and debt simplification
+- [x] Unit tests for splitting, balances, settlements and debt simplification
 - [ ] Integration tests for CRUD, authorization, validation, vote uniqueness/change and conversion
 - [ ] Real PostgreSQL migration and integration-suite verification
 - [ ] Browser regression for account lifecycle, core CRUD, voting, settlements and mobile overflow
@@ -48,4 +48,4 @@ The checked items reflect what is complete at this commit.
 
 ## Completed in this commit
 
-Add shared expense CRUD, participant selection and exact equal splits with remainder tests.
+Calculate balances and simplified debts; record settlements and cover the calculations with tests.
