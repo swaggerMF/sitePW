@@ -2,8 +2,8 @@ package com.tripboard.service;
 import com.tripboard.dto.TripDtos.*;import com.tripboard.entity.*;import com.tripboard.repository.*;import com.tripboard.mapper.TripMapper;import com.tripboard.exception.ApiException;import lombok.RequiredArgsConstructor;import org.springframework.stereotype.Service;import org.springframework.transaction.annotation.Transactional;import java.util.List;
 @Service @RequiredArgsConstructor @Transactional
 public class MemberService {
- private final TripMemberRepository members;private final UserRepository users;private final TripMapper mapper;private final AccessService access;
+ private final ExpenseRepository expenses;private final TripMemberRepository members;private final UserRepository users;private final TripMapper mapper;private final AccessService access;
  public List<Member> list(Long tripId){access.member(tripId);return members.findByTripIdOrderById(tripId).stream().map(mapper::member).toList();}
  public Member add(Long tripId,AddMember i){var t=access.owner(tripId);String q=i.query().trim();var u=users.findByEmailIgnoreCase(q).or(()->users.findByUsernameIgnoreCase(q)).orElseThrow(()->ApiException.bad("No registered user matches that email or username."));if(members.existsByTripIdAndUserId(tripId,u.getId()))throw ApiException.bad("This person is already a member.");var m=new TripMember();m.setTrip(t);m.setUser(u);m.setRole("MEMBER");return mapper.member(members.save(m));}
- public void remove(Long tripId,Long userId){var t=access.owner(tripId);if(t.getOwner().getId().equals(userId))throw ApiException.bad("The owner cannot be removed.");members.delete(members.findByTripIdAndUserId(tripId,userId).orElseThrow(ApiException::missing));}
+ public void remove(Long tripId,Long userId){var t=access.owner(tripId);if(t.getOwner().getId().equals(userId))throw ApiException.bad("The owner cannot be removed.");if(expenses.hasFinancialRecord(tripId,userId))throw ApiException.bad("This member has expense records. Remove their financial records before removing them.");members.delete(members.findByTripIdAndUserId(tripId,userId).orElseThrow(ApiException::missing));}
 }

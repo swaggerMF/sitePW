@@ -3,3 +3,4 @@ export interface Session { token:string; user:User }
 export interface Trip {id:number;name:string;destination:string;description:string;startDate:string;endDate:string;currency:string;ownerId:number;memberCount:number}
 export interface Member extends User {role:'OWNER'|'MEMBER'}
 export interface Activity {id:number;title:string;description:string;location:string;date:string;startTime:string;estimatedCost:number;createdById:number;createdBy:string}
+export interface Expense {id:number;description:string;amount:number;paidById:number;paidBy:string;date:string;createdById:number;shares:{userId:number;username:string;amount:number}[]}

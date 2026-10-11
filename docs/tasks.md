@@ -10,7 +10,7 @@ The checked items reflect what is complete at this commit.
 - [x] Trip CRUD backend and frontend
 - [x] Membership and access authorization
 - [x] Itinerary CRUD and chronological UI
-- [ ] Expense CRUD and deterministic equal splitting
+- [x] Expense CRUD and deterministic equal splitting
 - [ ] Balances, settlements and debt simplification
 - [ ] Suggestion CRUD, unique votes and activity conversion
 - [ ] Trip dashboard and demo data
@@ -28,8 +28,8 @@ The checked items reflect what is complete at this commit.
 - [x] Member lookup by registered username/email; owner-only add/remove operations
 - [ ] Creator/owner editing rules and trip membership checks on every resource
 - [x] Activity create/view/edit/delete; chronological day grouping and date validation
-- [ ] Expense create/view/edit/delete; payer and participant selection
-- [ ] Exact equal shares, stable remainder-cent allocation and duplicate-participant validation
+- [x] Expense create/view/edit/delete; payer and participant selection
+- [x] Exact equal shares, stable remainder-cent allocation and duplicate-participant validation
 - [ ] Per-member balances, corrected settlement signs and simplified transfers
 - [ ] Payment recording/deletion; financial history protects member removal
 - [ ] Open suggestion create/view/edit/delete, one changeable vote per user
@@ -48,4 +48,4 @@ The checked items reflect what is complete at this commit.
 
 ## Completed in this commit
 
-Add itinerary endpoints and screens, day grouping, date rules and activity authorization tests.
+Add shared expense CRUD, participant selection and exact equal splits with remainder tests.
