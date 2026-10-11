@@ -48,4 +48,4 @@ The checked items reflect what is complete at this commit.
 
 ## Completed in this commit
 
-Add Angular login and registration pages, session handling, a route guard and a JWT interceptor.
+Implement trip CRUD, trip membership, backend access rules and the trips/members schema.
