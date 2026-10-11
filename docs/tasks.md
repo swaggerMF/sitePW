@@ -9,7 +9,7 @@ The checked items reflect what is complete at this commit.
 - [x] Registration, password hashing, JWT and authentication UI
 - [x] Trip CRUD backend and frontend
 - [x] Membership and access authorization
-- [ ] Itinerary CRUD and chronological UI
+- [x] Itinerary CRUD and chronological UI
 - [ ] Expense CRUD and deterministic equal splitting
 - [ ] Balances, settlements and debt simplification
 - [ ] Suggestion CRUD, unique votes and activity conversion
@@ -27,7 +27,7 @@ The checked items reflect what is complete at this commit.
 - [x] Trip cards and create/edit/delete dialogs; consistent nested trip navigation
 - [x] Member lookup by registered username/email; owner-only add/remove operations
 - [ ] Creator/owner editing rules and trip membership checks on every resource
-- [ ] Activity create/view/edit/delete; chronological day grouping and date validation
+- [x] Activity create/view/edit/delete; chronological day grouping and date validation
 - [ ] Expense create/view/edit/delete; payer and participant selection
 - [ ] Exact equal shares, stable remainder-cent allocation and duplicate-participant validation
 - [ ] Per-member balances, corrected settlement signs and simplified transfers
@@ -48,4 +48,4 @@ The checked items reflect what is complete at this commit.
 
 ## Completed in this commit
 
-Add trip cards, forms, navigation and the owner’s member management screens.
+Add itinerary endpoints and screens, day grouping, date rules and activity authorization tests.
