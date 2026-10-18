@@ -20,6 +20,30 @@ class AuthIntegrationTest {
   MockMvc mvc;
 
   @Test
+  void diagnosticsDoNotExposeCredentials() {
+    var password = "private-password-value";
+    org.assertj.core.api.Assertions.assertThat(
+      new com.tripboard.dto.AuthDtos.Register(
+        "someone",
+        "someone@example.com",
+        password
+      ).toString()
+    ).doesNotContain(password);
+    org.assertj.core.api.Assertions.assertThat(
+      new com.tripboard.dto.AuthDtos.Login(
+        "someone@example.com",
+        password
+      ).toString()
+    ).doesNotContain(password);
+    org.assertj.core.api.Assertions.assertThat(
+      new com.tripboard.dto.AuthDtos.Session(
+        "private-token-value",
+        null
+      ).toString()
+    ).doesNotContain("private-token-value");
+  }
+
+  @Test
   void registrationLoginAndProtectedRoutes() throws Exception {
     mvc.perform(get("/api/auth/me")).andExpect(status().isUnauthorized());
     mvc

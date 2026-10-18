@@ -44,8 +44,8 @@ The checked items reflect what is complete at this commit.
 - [x] Browser regression for account lifecycle, core CRUD, voting, settlements and mobile overflow
 - [x] Patched frontend development dependency; clean npm audit
 - [ ] Maven wrapper and environment-loading backend runner
-- [ ] Redact passwords and tokens from authentication diagnostic output
+- [x] Redact passwords and tokens from authentication diagnostic output
 
 ## Completed in this commit
 
-Harden authentication and validation, expand browser/security checks and format the source files.
+Remove password and token values from authentication diagnostics and test the redaction.
