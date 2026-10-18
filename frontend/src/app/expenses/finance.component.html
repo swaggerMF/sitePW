@@ -1,0 +1,110 @@
+@if (error() && !recording()) {
+  <p class="error" role="alert">{{ error() }}</p>
+}
+@if (summary(); as s) {
+  <div class="finance-grid">
+    <section class="card">
+      <div class="section-heading">
+        <h3>Everyone’s balance</h3>
+        <span class="badge">{{ ctx.currency }}</span>
+      </div>
+      <p class="my-balance">
+        Your balance
+        <strong [class.negative]="mine() < 0" [class.positive]="mine() > 0">{{
+          mine() | currency: ctx.currency
+        }}</strong
+        ><small>{{
+          mine() > 0
+            ? "You should receive money"
+            : mine() < 0
+              ? "You owe money"
+              : "You’re all square"
+        }}</small>
+      </p>
+      @for (b of s.balances; track b.userId) {
+        <div class="balance-row">
+          <span
+            >{{ b.username
+            }}<small class="block"
+              >Paid {{ b.totalPaid | currency: ctx.currency }} · Share
+              {{ b.totalShare | currency: ctx.currency }}</small
+            ></span
+          ><strong
+            [class.negative]="b.balance < 0"
+            [class.positive]="b.balance > 0"
+            >{{ b.balance | currency: ctx.currency }}</strong
+          >
+        </div>
+      }
+      <p class="split-note">Positive: should receive · Negative: owes</p>
+    </section>
+    <section class="card">
+      <div class="section-heading">
+        <h3>Settle up, simply.</h3>
+        <button (click)="open(null)">Record payment</button>
+      </div>
+      @for (t of s.transfers; track t.fromUserId + "-" + t.toUserId) {
+        <div class="transfer-row">
+          <p>
+            <strong>{{ t.fromUser }}</strong> → <strong>{{ t.toUser }}</strong>
+          </p>
+          <div>
+            <strong>{{ t.amount | currency: ctx.currency }}</strong>
+            @if (canRecord(t)) {
+              <button class="text-button" (click)="open(t)">Record</button>
+            }
+          </div>
+        </div>
+      } @empty {
+        <div class="empty">
+          <h3>All square ✧</h3>
+          <p>Nothing to settle right now.</p>
+        </div>
+      }
+      <p class="split-note">Suggested payments simplify the group’s debts.</p>
+    </section>
+  </div>
+  <section class="settlements">
+    <h3>Recorded payments</h3>
+    @for (s of settlements(); track s.id) {
+      <div class="balance-row">
+        <span
+          >{{ s.fromUser }} paid {{ s.toUser
+          }}<small class="block">{{ s.date | date: "mediumDate" }}</small></span
+        >
+        <div class="actions">
+          <strong>{{ s.amount | currency: ctx.currency }}</strong>
+          @if (ctx.canEdit(s.createdById)) {
+            <button class="text-button" (click)="removing.set(s)">
+              Delete
+            </button>
+          }
+        </div>
+      </div>
+    } @empty {
+      <p class="muted">No payments recorded yet.</p>
+    }
+  </section>
+} @else if (loading()) {
+  <p class="loading">Calculating balances…</p>
+}
+@if (recording()) {
+  <app-modal title="Record a payment" (closed)="recording.set(false)"
+    ><app-settlement-form
+      [members]="members()"
+      [initial]="selected()"
+      [busy]="busy()"
+      [error]="error()"
+      (saved)="save($event)"
+      (cancelled)="recording.set(false)"
+  /></app-modal>
+}
+@if (removing(); as s) {
+  <app-confirm
+    title="Delete this recorded payment?"
+    message="Balances will be recalculated as if this payment had not happened."
+    [busy]="busy()"
+    (cancelled)="removing.set(null)"
+    (confirmed)="remove(s)"
+  />
+}

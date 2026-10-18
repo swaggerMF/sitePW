@@ -1,0 +1,59 @@
+<form #f="ngForm" (ngSubmit)="saved.emit(model)">
+  <label
+    >Description<input
+      name="description"
+      [(ngModel)]="model.description"
+      required
+      maxlength="200"
+      placeholder="Rental car, dinner, a cozy place to stay…"
+  /></label>
+  <div class="form-grid">
+    <label
+      >Amount ({{ ctx.currency }})<input
+        name="amount"
+        type="number"
+        [(ngModel)]="model.amount"
+        required
+        min="0.01"
+        max="9999999999.99"
+        step="0.01" /></label
+    ><label
+      >Date<input name="date" type="date" [(ngModel)]="model.date" required
+    /></label>
+  </div>
+  <label
+    >Paid by<select name="paidById" [(ngModel)]="model.paidById" required>
+      @for (m of members(); track m.id) {
+        <option [ngValue]="m.id">{{ m.username }}</option>
+      }
+    </select></label
+  >
+  <fieldset>
+    <legend>Split equally between</legend>
+    @for (m of members(); track m.id) {
+      <label class="checkbox-row"
+        ><input
+          type="checkbox"
+          [checked]="model.participantIds.includes(m.id)"
+          (change)="toggle(m.id)"
+        />{{ m.username }}</label
+      >
+    }
+  </fieldset>
+  <p class="split-note">
+    {{ model.participantIds.length }} participants · Split automatically, down
+    to the last cent.
+  </p>
+  @if (error()) {
+    <p class="error" role="alert">{{ error() }}</p>
+  }
+  <div class="form-actions">
+    <button type="button" (click)="cancelled.emit()">Cancel</button
+    ><button
+      class="primary"
+      [disabled]="f.invalid || !model.participantIds.length || busy()"
+    >
+      {{ busy() ? "Saving…" : "Save expense" }}
+    </button>
+  </div>
+</form>

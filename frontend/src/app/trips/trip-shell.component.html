@@ -1,0 +1,61 @@
+<section class="page">
+  <a class="back-link" routerLink="/trips">← All trips</a>
+  @if (error() && !editing()) {
+    <p class="error" role="alert">{{ error() }}</p>
+  }
+  @if (ctx.trip(); as t) {
+    <div class="trip-hero">
+      <div>
+        <span class="eyebrow">{{ t.destination }}</span>
+        <h1>{{ t.name }}</h1>
+        <div class="trip-meta">
+          <span
+            >▤ {{ t.startDate | date: "MMM d" }} —
+            {{ t.endDate | date: "MMM d, yyyy" }}</span
+          ><span>◉ {{ t.memberCount }} travelers</span
+          ><span>{{ t.currency }}</span>
+        </div>
+      </div>
+      @if (ctx.owner()) {
+        <div class="actions">
+          <button (click)="editing.set(true); error.set('')">Edit trip</button
+          ><button class="text-button" (click)="deleting.set(true)">
+            Delete
+          </button>
+        </div>
+      }
+    </div>
+    <nav class="trip-nav" aria-label="Trip sections">
+      @for (link of links; track link.path) {
+        <a
+          [routerLink]="link.path || './'"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: !link.path }"
+          >{{ link.label }}</a
+        >
+      }
+    </nav>
+    <router-outlet />
+  } @else if (loading()) {
+    <p class="loading" role="status">Opening your trip…</p>
+  }
+</section>
+@if (editing()) {
+  <app-modal title="Edit trip" (closed)="editing.set(false)"
+    ><app-trip-form
+      [initial]="ctx.trip()"
+      [error]="error()"
+      [busy]="busy()"
+      (cancelled)="editing.set(false)"
+      (saved)="save($event)"
+  /></app-modal>
+}
+@if (deleting()) {
+  <app-confirm
+    title="Delete this trip?"
+    message="The itinerary, ideas, expenses and settlements will be permanently deleted for everyone."
+    [busy]="busy()"
+    (cancelled)="deleting.set(false)"
+    (confirmed)="remove()"
+  />
+}

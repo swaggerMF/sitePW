@@ -1,10 +1,12 @@
 package com.tripboard.repository;
+
 import com.tripboard.entity.User;
-import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.Optional;
-public interface UserRepository extends JpaRepository<User,Long> {
- Optional<User> findByEmailIgnoreCase(String email);
- Optional<User> findByUsernameIgnoreCase(String username);
- boolean existsByEmailIgnoreCase(String email);
- boolean existsByUsernameIgnoreCase(String username);
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface UserRepository extends JpaRepository<User, Long> {
+  Optional<User> findByEmailIgnoreCase(String email);
+  Optional<User> findByUsernameIgnoreCase(String username);
+  boolean existsByEmailIgnoreCase(String email);
+  boolean existsByUsernameIgnoreCase(String username);
 }

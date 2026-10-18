@@ -1,3 +1,60 @@
-import {Component,inject,signal,OnInit} from '@angular/core';import {FormsModule} from '@angular/forms';import {ApiService} from '../core/api.service';import {Member} from '../core/models';import {TripContext} from '../trips/trip-context';import {PageState} from '../shared/page-state';import {ConfirmComponent} from '../shared/confirm.component';
-@Component({imports:[FormsModule,ConfirmComponent],template:`<div class="section-heading"><div><span class="eyebrow">BETTER TOGETHER</span><h2>Your travel crew.</h2><p class="muted">Everyone on this adventure.</p></div></div>@if(error()){<p class="error" role="alert">{{error()}}</p>}@if(ctx.owner()){<form class="member-add card" #f="ngForm" (ngSubmit)="add()"><label>Add a registered traveler<input name="query" [(ngModel)]="query" required maxlength="254" placeholder="Email address or exact username"></label><button class="primary" [disabled]="f.invalid||busy()">＋ Add member</button></form>}@if(loading()){<p class="loading" role="status">Loading the crew…</p>}@else{<div class="member-list">@for(m of members();track m.id){<div class="member-row card"><span class="avatar">{{m.username[0].toUpperCase()}}</span><div class="grow"><h3>{{m.username}}</h3><span class="muted">{{m.email}}</span></div><span class="badge">{{m.role==='OWNER'?'ORGANIZER':'TRAVELER'}}</span>@if(ctx.owner()&&m.role!=='OWNER'){<button class="text-button" (click)="removing.set(m)">Remove</button>}</div>}</div>}@if(removing();as m){<app-confirm [title]="'Remove '+m.username+'?'" message="They will lose access to this trip. Members with financial records cannot be removed." [busy]="busy()" (cancelled)="removing.set(null)" (confirmed)="remove(m)" />}`})
-export class MembersComponent extends PageState implements OnInit {ctx=inject(TripContext);api=inject(ApiService);members=signal<Member[]>([]);query='';removing=signal<Member|null>(null);ngOnInit(){this.load();}load(){this.loading.set(true);this.api.get<Member[]>('/trips/'+this.ctx.id+'/members').subscribe({next:m=>{this.members.set(m);this.ctx.trip.update(t=>t?{...t,memberCount:m.length}:t);this.loading.set(false);},error:this.fail});}add(){this.busy.set(true);this.error.set('');this.api.post('/trips/'+this.ctx.id+'/members',{query:this.query}).subscribe({next:()=>{this.query='';this.busy.set(false);this.load();},error:this.fail});}remove(m:Member){this.busy.set(true);this.api.delete('/trips/'+this.ctx.id+'/members/'+m.id).subscribe({next:()=>{this.removing.set(null);this.busy.set(false);this.load();},error:e=>{this.removing.set(null);this.fail(e);}});}}
+import { Component, inject, signal, OnInit } from "@angular/core";
+import { FormsModule } from "@angular/forms";
+import { ApiService } from "../core/api.service";
+import { Member } from "../core/models";
+import { TripContext } from "../trips/trip-context";
+import { PageState } from "../shared/page-state";
+import { ConfirmComponent } from "../shared/confirm.component";
+@Component({
+  imports: [FormsModule, ConfirmComponent],
+  templateUrl: "./members.component.html",
+})
+export class MembersComponent extends PageState implements OnInit {
+  ctx = inject(TripContext);
+  api = inject(ApiService);
+  members = signal<Member[]>([]);
+  query = "";
+  removing = signal<Member | null>(null);
+  ngOnInit() {
+    this.load();
+  }
+  load() {
+    this.loading.set(true);
+    this.api.get<Member[]>("/trips/" + this.ctx.id + "/members").subscribe({
+      next: (m) => {
+        this.members.set(m);
+        this.ctx.trip.update((t) => (t ? { ...t, memberCount: m.length } : t));
+        this.loading.set(false);
+      },
+      error: this.fail,
+    });
+  }
+  add() {
+    this.busy.set(true);
+    this.error.set("");
+    this.api
+      .post("/trips/" + this.ctx.id + "/members", { query: this.query })
+      .subscribe({
+        next: () => {
+          this.query = "";
+          this.busy.set(false);
+          this.load();
+        },
+        error: this.fail,
+      });
+  }
+  remove(m: Member) {
+    this.busy.set(true);
+    this.api.delete("/trips/" + this.ctx.id + "/members/" + m.id).subscribe({
+      next: () => {
+        this.removing.set(null);
+        this.busy.set(false);
+        this.load();
+      },
+      error: (e) => {
+        this.removing.set(null);
+        this.fail(e);
+      },
+    });
+  }
+}

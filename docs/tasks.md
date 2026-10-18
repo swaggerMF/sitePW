@@ -14,8 +14,8 @@ The checked items reflect what is complete at this commit.
 - [x] Balances, settlements and debt simplification
 - [x] Suggestion CRUD, unique votes and activity conversion
 - [x] Trip dashboard and demo data
-- [ ] Business logic and access integration tests
-- [ ] Responsive UI, validation and browser flow verification
+- [x] Business logic and access integration tests
+- [x] Responsive UI, validation and browser flow verification
 - [ ] Requirements, technical specification and complete setup guide
 
 ## Feature details
@@ -36,16 +36,16 @@ The checked items reflect what is complete at this commit.
 - [x] Owner accept/reject actions and once-only accepted-idea conversion
 - [x] Dashboard spending, upcoming activities, personal balance and shortcuts
 - [x] Opt-in empty-database demo seeding with externally configured passwords
-- [ ] Responsive desktop/mobile views, native modal dialogs, confirmations and error states
-- [ ] Separate Angular templates and formatted Java/TypeScript/CSS sources
+- [x] Responsive desktop/mobile views, native modal dialogs, confirmations and error states
+- [x] Separate Angular templates and formatted Java/TypeScript/CSS sources
 - [x] Unit tests for splitting, balances, settlements and debt simplification
 - [x] Integration tests for CRUD, authorization, validation, vote uniqueness/change and conversion
 - [ ] Real PostgreSQL migration and integration-suite verification
-- [ ] Browser regression for account lifecycle, core CRUD, voting, settlements and mobile overflow
-- [ ] Patched frontend development dependency; clean npm audit
+- [x] Browser regression for account lifecycle, core CRUD, voting, settlements and mobile overflow
+- [x] Patched frontend development dependency; clean npm audit
 - [ ] Maven wrapper and environment-loading backend runner
 - [ ] Redact passwords and tokens from authentication diagnostic output
 
 ## Completed in this commit
 
-Add the trip overview dashboard and optional demo data for an empty database.
+Harden authentication and validation, expand browser/security checks and format the source files.

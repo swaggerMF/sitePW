@@ -1,0 +1,174 @@
+<div class="section-heading">
+  <div>
+    <span class="eyebrow">THE GROUP WISH LIST</span>
+    <h2>Every great trip starts with an idea.</h2>
+    <p class="muted">Pitch a possibility. Let the crew weigh in.</p>
+  </div>
+  <button class="primary" (click)="open(null)">＋ Suggest an idea</button>
+</div>
+@if (error() && !editing() && !converting()) {
+  <p class="error" role="alert">{{ error() }}</p>
+}
+@if (loading()) {
+  <p class="loading" role="status">Collecting everyone’s ideas…</p>
+} @else {
+  <div class="ideas-grid">
+    @for (s of items(); track s.id) {
+      <article class="idea-card card">
+        <div class="idea-top">
+          <span class="badge" [class.rejected]="s.status === 'REJECTED'">{{
+            s.converted ? "ON THE ITINERARY" : s.status
+          }}</span
+          ><span class="muted">⌖ {{ s.location || "Anywhere" }}</span>
+        </div>
+        <h3>
+          <button class="title-button" (click)="viewing.set(s)">
+            {{ s.title }}
+          </button>
+        </h3>
+        <p class="idea-description">
+          {{
+            s.description ||
+              "The adventure is in the details. Open this idea to take a look."
+          }}
+        </p>
+        <div class="idea-cost">
+          <strong>{{ s.estimatedCost | currency: ctx.currency }}</strong
+          ><span> / person</span>
+        </div>
+        <p class="suggested-by">
+          Suggested by <strong>{{ s.createdBy }}</strong>
+        </p>
+        <div class="vote-bar">
+          <button
+            [class.voted]="s.myVote === 'UP'"
+            [attr.aria-pressed]="s.myVote === 'UP'"
+            [disabled]="s.status !== 'OPEN' || busy()"
+            (click)="vote(s, 'UP')"
+          >
+            ↑ {{ s.upVotes }} <span>Up</span></button
+          ><button
+            [class.voted]="s.myVote === 'DOWN'"
+            [attr.aria-pressed]="s.myVote === 'DOWN'"
+            [disabled]="s.status !== 'OPEN' || busy()"
+            (click)="vote(s, 'DOWN')"
+          >
+            ↓ {{ s.downVotes }} <span>Down</span></button
+          ><button class="text-button" (click)="viewing.set(s)">View</button>
+        </div>
+        <div class="idea-actions">
+          @if (s.status === "OPEN") {
+            @if (ctx.owner()) {
+              <button
+                class="primary"
+                [disabled]="busy()"
+                (click)="decision.set({ idea: s, accept: true })"
+              >
+                Accept</button
+              ><button
+                [disabled]="busy()"
+                (click)="decision.set({ idea: s, accept: false })"
+              >
+                Reject
+              </button>
+            }
+            @if (ctx.canEdit(s.createdById)) {
+              <button class="text-button" (click)="open(s)">Edit</button
+              ><button class="text-button" (click)="removing.set(s)">
+                Delete
+              </button>
+            }
+          }
+          @if (s.status === "ACCEPTED" && !s.converted && ctx.owner()) {
+            <button class="primary" (click)="converting.set(s); error.set('')">
+              Add to itinerary ↗
+            </button>
+          }
+          @if (s.converted) {
+            <a class="itinerary-link" routerLink="../itinerary"
+              >See the itinerary ↗</a
+            >
+          }
+        </div>
+      </article>
+    } @empty {
+      <div class="empty">
+        <h3>What if we…?</h3>
+        <p>Suggest something you’d love to do on this trip.</p>
+        <button (click)="open(null)">Share the first idea</button>
+      </div>
+    }
+  </div>
+}
+@if (editing()) {
+  <app-modal
+    [title]="selected() ? 'Edit idea' : 'A little inspiration'"
+    (closed)="editing.set(false)"
+    ><app-suggestion-form
+      [initial]="selected()"
+      [busy]="busy()"
+      [error]="error()"
+      (saved)="save($event)"
+      (cancelled)="editing.set(false)"
+  /></app-modal>
+}
+@if (viewing(); as s) {
+  <app-modal [title]="s.title" (closed)="viewing.set(null)"
+    ><p>⌖ {{ s.location || "Location to be decided" }}</p>
+    <p class="detail-text">{{ s.description || "No notes yet." }}</p>
+    <p>{{ s.estimatedCost | currency: ctx.currency }} / person</p>
+    <small>Suggested by {{ s.createdBy }} · {{ s.status }}</small></app-modal
+  >
+}
+@if (removing(); as s) {
+  <app-confirm
+    [title]="'Delete ' + s.title + '?'"
+    message="This idea and all its votes will be deleted."
+    [busy]="busy()"
+    (cancelled)="removing.set(null)"
+    (confirmed)="remove(s)"
+  />
+}
+@if (decision(); as d) {
+  <app-confirm
+    [title]="(d.accept ? 'Accept ' : 'Reject ') + d.idea.title + '?'"
+    message="This closes voting and editing for the idea. This decision cannot be undone."
+    [confirmLabel]="d.accept ? 'Accept idea' : 'Reject idea'"
+    [busy]="busy()"
+    (cancelled)="decision.set(null)"
+    (confirmed)="decide(d.idea, d.accept)"
+  />
+}
+@if (converting(); as s) {
+  <app-modal title="Make it part of the plan" (closed)="converting.set(null)"
+    ><p>{{ s.title }}</p>
+    <form #f="ngForm" (ngSubmit)="convert(s)">
+      <div class="form-grid">
+        <label
+          >Date<input
+            type="date"
+            name="date"
+            [(ngModel)]="conversion.date"
+            [min]="ctx.trip()!.startDate"
+            [max]="ctx.trip()!.endDate"
+            required /></label
+        ><label
+          >Time<input
+            type="time"
+            name="time"
+            [(ngModel)]="conversion.startTime"
+            required
+        /></label>
+      </div>
+      @if (error()) {
+        <p class="error" role="alert">{{ error() }}</p>
+      }
+      <div class="form-actions">
+        <button type="button" (click)="converting.set(null)">Cancel</button
+        ><button class="primary" [disabled]="f.invalid || busy()">
+          Add to itinerary
+        </button>
+      </div>
+    </form></app-modal
+  >
+}

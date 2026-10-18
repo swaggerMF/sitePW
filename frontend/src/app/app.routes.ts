@@ -1,6 +1,29 @@
-import {SuggestionsComponent} from './suggestions/suggestions.component';
-import {ExpensesComponent} from './expenses/expenses.component';
-import {ItineraryComponent} from './itinerary/itinerary.component';
-import {Routes} from '@angular/router';
-import {AuthComponent} from './auth/auth.component';import {authGuard} from './core/auth.guard';import {TripsComponent} from './trips/trips.component';import {TripShellComponent} from './trips/trip-shell.component';import {OverviewComponent} from './trips/overview.component';import {MembersComponent} from './members/members.component';
-export const routes:Routes=[{path:'login',component:AuthComponent},{path:'register',component:AuthComponent},{path:'trips',component:TripsComponent,canActivate:[authGuard]},{path:'trips/:id',component:TripShellComponent,canActivate:[authGuard],children:[{path:'',component:OverviewComponent},{path:'itinerary',component:ItineraryComponent},{path:'expenses',component:ExpensesComponent},{path:'suggestions',component:SuggestionsComponent},{path:'members',component:MembersComponent}]},{path:'',redirectTo:'trips',pathMatch:'full'},{path:'**',redirectTo:'trips'}];
+import { SuggestionsComponent } from "./suggestions/suggestions.component";
+import { ExpensesComponent } from "./expenses/expenses.component";
+import { ItineraryComponent } from "./itinerary/itinerary.component";
+import { Routes } from "@angular/router";
+import { AuthComponent } from "./auth/auth.component";
+import { authGuard } from "./core/auth.guard";
+import { TripsComponent } from "./trips/trips.component";
+import { TripShellComponent } from "./trips/trip-shell.component";
+import { OverviewComponent } from "./trips/overview.component";
+import { MembersComponent } from "./members/members.component";
+export const routes: Routes = [
+  { path: "login", component: AuthComponent },
+  { path: "register", component: AuthComponent },
+  { path: "trips", component: TripsComponent, canActivate: [authGuard] },
+  {
+    path: "trips/:id",
+    component: TripShellComponent,
+    canActivate: [authGuard],
+    children: [
+      { path: "", component: OverviewComponent },
+      { path: "itinerary", component: ItineraryComponent },
+      { path: "expenses", component: ExpensesComponent },
+      { path: "suggestions", component: SuggestionsComponent },
+      { path: "members", component: MembersComponent },
+    ],
+  },
+  { path: "", redirectTo: "trips", pathMatch: "full" },
+  { path: "**", redirectTo: "trips" },
+];

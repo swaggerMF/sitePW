@@ -1,0 +1,14 @@
+<dialog aria-labelledby="modal-title" #dialog (cancel)="onCancel($event)">
+  <div class="modal-heading">
+    <h2 id="modal-title">{{ title() }}</h2>
+    <button
+      type="button"
+      class="text-button"
+      aria-label="Close dialog"
+      (click)="closed.emit()"
+    >
+      ✕
+    </button>
+  </div>
+  <ng-content />
+</dialog>

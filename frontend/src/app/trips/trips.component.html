@@ -1,0 +1,84 @@
+<section class="page">
+  <div class="page-heading">
+    <div>
+      <span class="eyebrow">A WORLD OF POSSIBILITIES</span>
+      <h1>Your next great story.</h1>
+      <p>Shared plans. New places. Your favorite people.</p>
+    </div>
+    <button class="primary" (click)="creating.set(true)">
+      ＋ Create a trip
+    </button>
+  </div>
+  <div class="trips-heading">
+    <h3>
+      My trips <span class="count">{{ trips().length }}</span>
+    </h3>
+    <span class="muted">All your adventures, together</span>
+  </div>
+  @if (error() && !creating()) {
+    <p class="error" role="alert">{{ error() }}</p>
+  }
+  @if (loading()) {
+    <p class="loading" role="status">Finding your trips…</p>
+  } @else {
+    <div class="trip-grid">
+      @for (t of trips(); track t.id) {
+        <a class="trip-card" [routerLink]="['/trips', t.id]"
+          ><div
+            class="trip-art"
+            [class.earth]="$index % 3 === 1"
+            [class.ocean]="$index % 3 === 2"
+          >
+            <span class="trip-label">{{ t.destination }}</span>
+            <div class="art-sun"></div>
+            <div class="art-ridge"></div>
+            <div class="art-ridge near"></div>
+            <span class="trip-arrow">↗</span>
+          </div>
+          <div class="trip-card-body">
+            <span class="eyebrow">{{ t.startDate | date: "MMM yyyy" }}</span>
+            <h2>{{ t.name }}</h2>
+            <p>
+              {{ t.startDate | date: "MMM d" }} —
+              {{ t.endDate | date: "MMM d, yyyy" }}
+            </p>
+            <div class="trip-card-bottom">
+              <span
+                >◉ {{ t.memberCount }}
+                {{ t.memberCount === 1 ? "traveler" : "travelers" }}</span
+              ><span>{{
+                t.ownerId === auth.user()?.id
+                  ? "Organized by you"
+                  : "You’re going"
+              }}</span>
+            </div>
+          </div></a
+        >
+      } @empty {
+        <div class="empty">
+          <h3>Where shall we go?</h3>
+          <p>Create your first trip, then invite your travel crew.</p>
+          <button (click)="creating.set(true)">Plan a trip ↗</button>
+        </div>
+      }
+    </div>
+  }
+  <div class="travel-note">
+    <span>✧</span>
+    <div>
+      <h3>Less back-and-forth. More getting out there.</h3>
+      <p>
+        Keep your itinerary, shared costs and everyone’s ideas in one place.
+      </p>
+    </div>
+  </div>
+</section>
+@if (creating()) {
+  <app-modal title="A new adventure" (closed)="creating.set(false)"
+    ><app-trip-form
+      [busy]="busy()"
+      [error]="error()"
+      (cancelled)="creating.set(false)"
+      (saved)="create($event)"
+  /></app-modal>
+}

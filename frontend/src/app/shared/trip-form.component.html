@@ -1,0 +1,65 @@
+<form #f="ngForm" (ngSubmit)="saved.emit(model)">
+  <label
+    >Trip name<input
+      name="name"
+      [(ngModel)]="model.name"
+      required
+      maxlength="100"
+      placeholder="Iceland road trip" /></label
+  ><label
+    >Destination<input
+      name="destination"
+      [(ngModel)]="model.destination"
+      required
+      maxlength="150"
+      placeholder="Iceland"
+  /></label>
+  <div class="form-grid">
+    <label
+      >Start date<input
+        name="startDate"
+        type="date"
+        [(ngModel)]="model.startDate"
+        required /></label
+    ><label
+      >End date<input
+        name="endDate"
+        type="date"
+        [(ngModel)]="model.endDate"
+        [min]="model.startDate"
+        required
+    /></label>
+  </div>
+  <label
+    >Currency<select
+      name="currency"
+      [(ngModel)]="model.currency"
+      [disabled]="!!initial()"
+    >
+      <option>EUR</option>
+      <option>RON</option>
+      <option>USD</option></select
+    ><small
+      >One currency for the whole trip. Cannot be changed later.</small
+    ></label
+  ><label
+    >A little about this trip<textarea
+      name="description"
+      [(ngModel)]="model.description"
+      maxlength="2000"
+      placeholder="The places, the people, the plan…"
+    ></textarea>
+  </label>
+  @if (error()) {
+    <p class="error" role="alert">{{ error() }}</p>
+  }
+  <div class="form-actions">
+    <button type="button" (click)="cancelled.emit()">Cancel</button
+    ><button
+      class="primary"
+      [disabled]="f.invalid || model.endDate < model.startDate || busy()"
+    >
+      {{ busy() ? "Saving…" : "Save trip" }}
+    </button>
+  </div>
+</form>

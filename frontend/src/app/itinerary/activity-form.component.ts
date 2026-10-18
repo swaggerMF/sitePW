@@ -1,3 +1,28 @@
-import {Component,input,output,OnInit,inject} from '@angular/core';import {FormsModule} from '@angular/forms';import {Activity} from '../core/models';import {TripContext} from '../trips/trip-context';
-@Component({selector:'app-activity-form',imports:[FormsModule],template:`<form #f="ngForm" (ngSubmit)="saved.emit(model)"><label>Activity name<input name="title" [(ngModel)]="model.title" required maxlength="120" placeholder="A waterfall worth the detour"></label><label>Location<input name="location" [(ngModel)]="model.location" maxlength="200" placeholder="Where are we heading?"></label><div class="form-grid"><label>Date<input type="date" name="date" [(ngModel)]="model.date" [min]="ctx.trip()!.startDate" [max]="ctx.trip()!.endDate" required></label><label>Start time<input type="time" name="startTime" [(ngModel)]="model.startTime" required></label></div><label>Estimated cost per person ({{ctx.currency}})<input type="number" name="estimatedCost" [(ngModel)]="model.estimatedCost" min="0" max="9999999999.99" step="0.01" required></label><label>Notes<textarea name="description" [(ngModel)]="model.description" maxlength="2000" placeholder="Anything the crew should know"></textarea></label>@if(error()){<p class="error" role="alert">{{error()}}</p>}<div class="form-actions"><button type="button" (click)="cancelled.emit()">Cancel</button><button class="primary" [disabled]="f.invalid||busy()">{{busy()?'Saving…':'Save activity'}}</button></div></form>`})
-export class ActivityFormComponent implements OnInit {ctx=inject(TripContext);initial=input<Activity|null>(null);busy=input(false);error=input('');saved=output<any>();cancelled=output<void>();model={title:'',location:'',date:this.ctx.trip()!.startDate,startTime:'09:00',estimatedCost:0,description:''};ngOnInit(){if(this.initial())this.model={...this.initial()!};}}
+import { Component, input, output, OnInit, inject } from "@angular/core";
+import { FormsModule } from "@angular/forms";
+import { Activity } from "../core/models";
+import { TripContext } from "../trips/trip-context";
+@Component({
+  selector: "app-activity-form",
+  imports: [FormsModule],
+  templateUrl: "./activity-form.component.html",
+})
+export class ActivityFormComponent implements OnInit {
+  ctx = inject(TripContext);
+  initial = input<Activity | null>(null);
+  busy = input(false);
+  error = input("");
+  saved = output<any>();
+  cancelled = output<void>();
+  model = {
+    title: "",
+    location: "",
+    date: this.ctx.trip()!.startDate,
+    startTime: "09:00",
+    estimatedCost: 0,
+    description: "",
+  };
+  ngOnInit() {
+    if (this.initial()) this.model = { ...this.initial()! };
+  }
+}

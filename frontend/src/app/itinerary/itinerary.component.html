@@ -1,0 +1,95 @@
+<div class="section-heading">
+  <div>
+    <span class="eyebrow">ONE DAY AT A TIME</span>
+    <h2>The plan, with room to wander.</h2>
+    <p class="muted">{{ items().length }} activities on the horizon.</p>
+  </div>
+  <button class="primary" (click)="open(null)">＋ Add activity</button>
+</div>
+@if (error() && !editing()) {
+  <p class="error" role="alert">{{ error() }}</p>
+}
+@if (loading()) {
+  <p class="loading" role="status">Gathering your plans…</p>
+} @else {
+  @for (group of groups(); track group.date) {
+    <section class="day-group">
+      <div class="day-heading">
+        <span class="day-number">{{ day(group.date) }}</span>
+        <div>
+          <span class="eyebrow">DAY {{ day(group.date) }}</span>
+          <h3>{{ group.date | date: "EEEE, MMMM d" }}</h3>
+        </div>
+        <span class="muted">{{ group.items.length }} stops</span>
+      </div>
+      <div class="timeline">
+        @for (a of group.items; track a.id) {
+          <article class="activity-row">
+            <time>{{ a.startTime.slice(0, 5) }}</time>
+            <div class="card activity-card">
+              <div class="grow">
+                <h3>
+                  <button class="title-button" (click)="viewing.set(a)">
+                    {{ a.title }}
+                  </button>
+                </h3>
+                <p class="muted">
+                  {{ a.location || "Location to be decided" }}
+                </p>
+                <span class="cost-tag"
+                  >{{ a.estimatedCost | currency: ctx.currency }} / person</span
+                >
+              </div>
+              <div class="actions">
+                <button class="text-button" (click)="viewing.set(a)">
+                  View
+                </button>
+                @if (ctx.canEdit(a.createdById)) {
+                  <button class="text-button" (click)="open(a)">Edit</button
+                  ><button class="text-button" (click)="removing.set(a)">
+                    Delete
+                  </button>
+                }
+              </div>
+            </div>
+          </article>
+        }
+      </div>
+    </section>
+  } @empty {
+    <div class="empty">
+      <h3>A little structure, a lot of possibility.</h3>
+      <p>Add your first stop to start shaping the itinerary.</p>
+      <button (click)="open(null)">Add an activity</button>
+    </div>
+  }
+}
+@if (editing()) {
+  <app-modal
+    [title]="selected() ? 'Edit activity' : 'Add a stop'"
+    (closed)="editing.set(false)"
+    ><app-activity-form
+      [initial]="selected()"
+      [busy]="busy()"
+      [error]="error()"
+      (saved)="save($event)"
+      (cancelled)="editing.set(false)"
+  /></app-modal>
+}
+@if (viewing(); as a) {
+  <app-modal [title]="a.title" (closed)="viewing.set(null)"
+    ><p>{{ a.date | date: "fullDate" }} · {{ a.startTime.slice(0, 5) }}</p>
+    <p>⌖ {{ a.location || "Location to be decided" }}</p>
+    <p class="detail-text">{{ a.description || "No notes yet." }}</p>
+    <p>{{ a.estimatedCost | currency: ctx.currency }} per person</p>
+    <small>Added by {{ a.createdBy }}</small></app-modal
+  >
+}
+@if (removing(); as a) {
+  <app-confirm
+    [title]="'Delete ' + a.title + '?'"
+    [busy]="busy()"
+    (cancelled)="removing.set(null)"
+    (confirmed)="remove(a)"
+  />
+}

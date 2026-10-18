@@ -1,3 +1,28 @@
-import {Component,input,output,inject,OnInit} from '@angular/core';import {FormsModule} from '@angular/forms';import {Member,Transfer} from '../core/models';import {TripContext} from '../trips/trip-context';
-@Component({selector:'app-settlement-form',imports:[FormsModule],template:`<form #f="ngForm" (ngSubmit)="saved.emit(model)"><p class="muted">Record a payment that already happened. TripBoard does not move money.</p><label>Who paid?<select name="fromUserId" [(ngModel)]="model.fromUserId" required><option [ngValue]="0" disabled>Select a member</option>@for(m of members();track m.id){<option [ngValue]="m.id">{{m.username}}</option>}</select></label><label>Who received it?<select name="toUserId" [(ngModel)]="model.toUserId" required><option [ngValue]="0" disabled>Select a member</option>@for(m of members();track m.id){<option [ngValue]="m.id">{{m.username}}</option>}</select></label><div class="form-grid"><label>Amount ({{ctx.currency}})<input name="amount" type="number" [(ngModel)]="model.amount" min="0.01" max="9999999999.99" step="0.01" required></label><label>Date<input name="date" type="date" [(ngModel)]="model.date" required></label></div>@if(error()){<p class="error" role="alert">{{error()}}</p>}<div class="form-actions"><button type="button" (click)="cancelled.emit()">Cancel</button><button class="primary" [disabled]="f.invalid||!model.fromUserId||!model.toUserId||model.fromUserId===model.toUserId||busy()">{{busy()?'Saving…':'Record payment'}}</button></div></form>`})
-export class SettlementFormComponent implements OnInit {ctx=inject(TripContext);members=input.required<Member[]>();initial=input<Transfer|null>(null);busy=input(false);error=input('');saved=output<any>();cancelled=output<void>();model={fromUserId:0,toUserId:0,amount:0,date:new Date().toLocaleDateString('en-CA')};ngOnInit(){const t=this.initial();if(t)this.model={...this.model,...t};}}
+import { Component, input, output, inject, OnInit } from "@angular/core";
+import { FormsModule } from "@angular/forms";
+import { Member, Transfer } from "../core/models";
+import { TripContext } from "../trips/trip-context";
+@Component({
+  selector: "app-settlement-form",
+  imports: [FormsModule],
+  templateUrl: "./settlement-form.component.html",
+})
+export class SettlementFormComponent implements OnInit {
+  ctx = inject(TripContext);
+  members = input.required<Member[]>();
+  initial = input<Transfer | null>(null);
+  busy = input(false);
+  error = input("");
+  saved = output<any>();
+  cancelled = output<void>();
+  model = {
+    fromUserId: 0,
+    toUserId: 0,
+    amount: 0,
+    date: new Date().toLocaleDateString("en-CA"),
+  };
+  ngOnInit() {
+    const t = this.initial();
+    if (t) this.model = { ...this.model, ...t };
+  }
+}

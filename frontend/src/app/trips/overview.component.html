@@ -1,0 +1,93 @@
+@if (error()) {
+  <p class="error" role="alert">{{ error() }}</p>
+}
+@if (data(); as d) {
+  <div class="overview-welcome">
+    <div>
+      <span class="eyebrow">THE BIG PICTURE</span>
+      <h2>A little planning.<br />A lot to look forward to.</h2>
+      <p class="detail-text">
+        {{
+          ctx.trip()?.description ||
+            "Bring your people together and start making plans."
+        }}
+      </p>
+      <a class="button primary" routerLink="itinerary"
+        >Explore the itinerary ↗</a
+      >
+    </div>
+    <div class="overview-art" aria-hidden="true">
+      <div class="art-sun"></div>
+      <div class="art-ridge"></div>
+      <div class="art-ridge near"></div>
+      <span class="adventure-stamp">TAKE THE<br />SCENIC ROUTE<br />✧</span>
+    </div>
+  </div>
+  <div class="stats-grid">
+    <div class="stat-card">
+      <span>Total shared expenses</span
+      ><strong>{{ d.totalExpenses | currency: ctx.currency }}</strong
+      ><a routerLink="expenses">See the breakdown ↗</a>
+    </div>
+    <div class="stat-card">
+      <span>Your balance</span
+      ><strong
+        [class.positive]="d.currentBalance > 0"
+        [class.negative]="d.currentBalance < 0"
+        >{{ d.currentBalance | currency: ctx.currency }}</strong
+      ><small>{{
+        d.currentBalance > 0
+          ? "You should receive money"
+          : d.currentBalance < 0
+            ? "You owe money"
+            : "You’re all square"
+      }}</small>
+    </div>
+    <div class="stat-card">
+      <span>Plans taking shape</span
+      ><strong
+        >{{ d.activityCount }}
+        <span class="small-unit">activities</span></strong
+      ><small>{{ d.openIdeas }} open ideas waiting for a vote</small>
+    </div>
+  </div>
+  <div class="overview-bottom">
+    <section class="card">
+      <div class="section-heading">
+        <h3>Coming up on your itinerary</h3>
+        <a routerLink="itinerary">View all ↗</a>
+      </div>
+      @for (a of d.upcoming; track a.id) {
+        <a class="upcoming-row" routerLink="itinerary"
+          ><div class="date-tile">
+            <strong>{{ a.date | date: "dd" }}</strong
+            ><span>{{ a.date | date: "MMM" }}</span>
+          </div>
+          <div class="grow">
+            <h3>{{ a.title }}</h3>
+            <small
+              >{{ a.startTime.slice(0, 5) }} ·
+              {{ a.location || "Location to be decided" }}</small
+            >
+          </div>
+          <span>↗</span></a
+        >
+      } @empty {
+        <p class="muted">
+          No upcoming activities. Add a stop or browse your itinerary.
+        </p>
+      }
+    </section>
+    <section class="crew-callout">
+      <span class="eyebrow">MAKE IT YOURS, TOGETHER</span>
+      <h3>A good idea can come<br />from anyone.</h3>
+      <p>
+        Discover what the crew has in mind, or throw your own idea into the mix.
+      </p>
+      <a routerLink="suggestions">Explore ideas ↗</a
+      ><a routerLink="members">Meet the travel crew ↗</a>
+    </section>
+  </div>
+} @else if (loading()) {
+  <p class="loading" role="status">Getting the big picture…</p>
+}
