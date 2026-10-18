@@ -16,7 +16,7 @@ The checked items reflect what is complete at this commit.
 - [x] Trip dashboard and demo data
 - [x] Business logic and access integration tests
 - [x] Responsive UI, validation and browser flow verification
-- [ ] Requirements, technical specification and complete setup guide
+- [x] Requirements, technical specification and complete setup guide
 
 ## Feature details
 
@@ -40,12 +40,12 @@ The checked items reflect what is complete at this commit.
 - [x] Separate Angular templates and formatted Java/TypeScript/CSS sources
 - [x] Unit tests for splitting, balances, settlements and debt simplification
 - [x] Integration tests for CRUD, authorization, validation, vote uniqueness/change and conversion
-- [ ] Real PostgreSQL migration and integration-suite verification
+- [x] Real PostgreSQL migration and integration-suite verification
 - [x] Browser regression for account lifecycle, core CRUD, voting, settlements and mobile overflow
 - [x] Patched frontend development dependency; clean npm audit
-- [ ] Maven wrapper and environment-loading backend runner
+- [x] Maven wrapper and environment-loading backend runner
 - [x] Redact passwords and tokens from authentication diagnostic output
 
 ## Completed in this commit
 
-Remove password and token values from authentication diagnostics and test the redaction.
+Write the requirements, technical specification and setup guide; add the Maven wrapper and verify the local build.
