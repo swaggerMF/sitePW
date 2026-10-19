@@ -1,6 +1,6 @@
 # TripBoard
 
-A university semester project for planning trips with friends: a shared itinerary, collaborative activity ideas and voting, and Splitwise-style expense tracking. Angular communicates with a Spring Boot REST API backed by PostgreSQL. No Docker or external travel services are required.
+A project for planning trips with friends: a shared itinerary, collaborative activity ideas and voting, and Splitwise-style expense tracking. Angular communicates with a Spring Boot REST API backed by PostgreSQL.
 
 ## Features
 
